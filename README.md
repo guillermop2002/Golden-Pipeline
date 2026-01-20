@@ -76,12 +76,23 @@ git commit -m "fix: remove hardcoded secrets and SQL injection"
 git push origin main
 ```
 
-## 📸 Capturas para Portfolio
+## 📸 Capturas del Pipeline en Acción
 
-1. **Pipeline Fallido (Rojo)**: Actions > Security Pipeline > Ver logs de error
-2. **Detección de Secretos**: Logs de Gitleaks mostrando el secreto encontrado
-3. **Detección de SQLi**: Logs de Semgrep mostrando la vulnerabilidad
-4. **Pipeline Exitoso (Verde)**: Después de arreglar el código
+### 1. Pipeline Fallido (Vista General)
+![Pipeline Failed](screenshots/01_pipeline_failed_overview.png)
+*El workflow muestra estado FAILED (rojo) al detectar código vulnerable*
+
+### 2. Gitleaks - Detección de Secretos
+![Gitleaks Detection](screenshots/02_gitleaks_secrets_detected.png)
+*Gitleaks detecta contraseñas y API keys hardcodeadas*
+
+### 3. Semgrep - Análisis SAST
+![Semgrep SAST](screenshots/03_semgrep_vulnerabilities.png)
+*Semgrep encuentra SQL Injection y otras vulnerabilidades*
+
+### 4. Security Summary
+![Security Summary](screenshots/04_security_summary.png)
+*Resumen final: Build bloqueado por problemas de seguridad*
 
 ## 🏆 Skills Demostradas
 
