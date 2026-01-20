@@ -1,0 +1,29 @@
+# Gitleaks Configuration
+# https://github.com/gitleaks/gitleaks
+
+title = "Golden Pipeline - Gitleaks Config"
+
+[extend]
+# Usar las reglas por defecto de Gitleaks
+useDefault = true
+
+# Reglas adicionales personalizadas
+[[rules]]
+id = "custom-password-pattern"
+description = "Detecta contraseñas hardcodeadas comunes"
+regex = '''(?i)(password|passwd|pwd|secret)\s*[=:]\s*[\"']?[^\s\"']{8,}[\"']?'''
+tags = ["password", "security"]
+
+[[rules]]
+id = "custom-api-key"
+description = "Detecta API keys genéricas"
+regex = '''(?i)(api[_-]?key|apikey)\s*[=:]\s*[\"']?[a-zA-Z0-9\-_]{20,}[\"']?'''
+tags = ["api-key", "security"]
+
+# Archivos a ignorar (para el ejemplo, no ignoramos nada)
+[allowlist]
+description = "Archivos permitidos"
+paths = [
+  '''\.gitleaks\.toml$''',
+  '''README\.md$''',
+]

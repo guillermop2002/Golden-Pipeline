@@ -1,0 +1,4 @@
+# Golden Pipeline - Dependencies
+# Python dependencies for the demo application
+
+requests>=2.31.0

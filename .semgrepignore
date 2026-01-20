@@ -1,0 +1,41 @@
+# Semgrep Ignore File
+# Archivos y directorios a excluir del escaneo
+
+# Dependencias
+node_modules/
+vendor/
+venv/
+.venv/
+__pycache__/
+
+# Build artifacts
+dist/
+build/
+*.pyc
+*.pyo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Tests (opcional, comentar si quieres escanear tests)
+# tests/
+# test_*.py
+# *_test.py
+
+# Archivos de configuración
+*.json
+*.yml
+*.yaml
+*.toml
+*.ini
+*.cfg
+
+# Documentación
+docs/
+*.md
+
+# Git
+.git/
