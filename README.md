@@ -39,8 +39,11 @@ Golden-Pipeline/
 │   └── workflows/
 │       └── security-pipeline.yml    # Pipeline de seguridad
 ├── src/
-│   ├── app_vulnerable.py            # ⚠️ Código vulnerable (demo)
-│   └── app_secure.py                # ✅ Código seguro (solución)
+│   └── app.py                       # ✅ Código seguro en producción
+├── screenshots/                     # 📸 Evidencias para portfolio
+│   ├── 01-04: Pipeline fallido
+│   ├── 05-06: Logs detallados  
+│   └── 07-08: Pipeline exitoso
 ├── .gitleaks.toml                   # Configuración de Gitleaks
 ├── .semgrepignore                   # Exclusiones de Semgrep
 └── README.md
@@ -78,21 +81,43 @@ git push origin main
 
 ## 📸 Capturas del Pipeline en Acción
 
-### 1. Pipeline Fallido (Vista General)
+### ❌ CASO 1: Pipeline Detecta Vulnerabilidades (FALLIDO)
+
+#### 1.1 Vista General - Pipeline Bloqueado
 ![Pipeline Failed](screenshots/01_pipeline_failed_overview.png)
 *El workflow muestra estado FAILED (rojo) al detectar código vulnerable*
 
-### 2. Gitleaks - Detección de Secretos
+#### 1.2 Gitleaks - Detección de Secretos
 ![Gitleaks Detection](screenshots/02_gitleaks_secrets_detected.png)
 *Gitleaks detecta contraseñas y API keys hardcodeadas*
 
-### 3. Semgrep - Análisis SAST
+#### 1.3 Semgrep - Análisis SAST
 ![Semgrep SAST](screenshots/03_semgrep_vulnerabilities.png)
 *Semgrep encuentra SQL Injection y otras vulnerabilidades*
 
-### 4. Security Summary
+#### 1.4 Security Summary - Build Bloqueado
 ![Security Summary](screenshots/04_security_summary.png)
 *Resumen final: Build bloqueado por problemas de seguridad*
+
+#### 1.5 Logs Detallados - Gitleaks (6 Secretos Encontrados)
+![Gitleaks Logs](screenshots/05_gitleaks_logs_detail.png)
+*Logs mostrando: "6 leaks found" - Contraseñas y API keys detectadas en app_vulnerable.py*
+
+#### 1.6 Logs Detallados - Semgrep (Vulnerabilidades Críticas)
+![Semgrep Logs](screenshots/06_semgrep_logs_detail.png)
+*Logs JSON con SQL Injection, eval() inseguro y SSL deshabilitado*
+
+---
+
+### ✅ CASO 2: Pipeline Pasa Después de Arreglar (ÉXITO)
+
+#### 2.1 Vista General - Todos los Workflows
+![Pipeline Success](screenshots/07_pipeline_success_overview.png)
+*Contraste perfecto: Fix en verde ✅ vs commits vulnerables en rojo ❌*
+
+#### 2.2 Detalle - Todos los Jobs Pasados
+![All Jobs Passed](screenshots/08_all_jobs_passed.png)
+*Gitleaks ✅ | Semgrep ✅ | Dependency Check ✅ | Security Summary ✅*
 
 ## 🏆 Skills Demostradas
 
