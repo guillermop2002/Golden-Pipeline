@@ -5,18 +5,18 @@
 ![Gitleaks](https://img.shields.io/badge/Gitleaks-Enabled-red?style=for-the-badge)
 ![Semgrep](https://img.shields.io/badge/Semgrep-SAST-purple?style=for-the-badge)
 
-## 🎯 Objetivo
+## 🎯 Objective
 
-Este repositorio demuestra la implementación de un **pipeline CI/CD seguro** utilizando GitHub Actions. El objetivo es detectar y **bloquear automáticamente** código vulnerable antes de que llegue a producción.
+This repository demonstrates the implementation of a **secure CI/CD pipeline** using GitHub Actions. The goal is to automatically detect and **block vulnerable code** before it reaches production.
 
-## 🔒 Herramientas de Seguridad Integradas
+## 🔒 Integrated Security Tools
 
-| Herramienta | Propósito | Tipo |
-|-------------|-----------|------|
-| **Gitleaks** | Detecta secretos y contraseñas hardcodeadas | Secret Detection |
-| **Semgrep** | Análisis estático de código (SAST) | Code Analysis |
+| Tool | Purpose | Type |
+|------|---------|------|
+| **Gitleaks** | Detects hardcoded secrets and passwords | Secret Detection |
+| **Semgrep** | Static Application Security Testing (SAST) | Code Analysis |
 
-## 🚀 Flujo del Pipeline
+## 🚀 Pipeline Flow
 
 ```mermaid
 graph LR
@@ -31,111 +31,125 @@ graph LR
     F -->|No| H
 ```
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 Golden-Pipeline/
 ├── .github/
 │   └── workflows/
-│       └── security-pipeline.yml    # Pipeline de seguridad
+│       └── security-pipeline.yml    # Security pipeline
 ├── src/
-│   └── app.py                       # ✅ Código seguro en producción
-├── screenshots/                     # 📸 Evidencias para portfolio
-│   ├── 01-04: Pipeline fallido
-│   ├── 05-06: Logs detallados  
-│   └── 07-08: Pipeline exitoso
-├── .gitleaks.toml                   # Configuración de Gitleaks
-├── .semgrepignore                   # Exclusiones de Semgrep
+│   └── app.py                       # ✅ Secure production code
+├── screenshots/                     # 📸 Portfolio evidence
+│   ├── 01-04: Failed pipeline
+│   ├── 05-06: Detailed logs  
+│   └── 07-08: Successful pipeline
+├── .gitleaks.toml                   # Gitleaks configuration
+├── .semgrepignore                   # Semgrep exclusions
 └── README.md
 ```
 
-## ⚠️ Vulnerabilidades Intencionadas (Demo)
+## ⚠️ Intentional Vulnerabilities (Demo)
 
-El archivo `src/app_vulnerable.py` contiene vulnerabilidades **intencionadas** para demostrar el funcionamiento del pipeline:
+The original `app_vulnerable.py` file contained **intentional vulnerabilities** to demonstrate the pipeline's detection capabilities:
 
-1. **🔑 Secreto Hardcodeado**: Contraseña en texto plano
-2. **💉 SQL Injection**: Query vulnerable a inyección
-3. **🔓 Credenciales de API**: API key expuesta
+1. **🔑 Hardcoded Secrets**: Plain text passwords and API keys
+2. **💉 SQL Injection**: Vulnerable database queries
+3. **⚠️ Insecure eval()**: Arbitrary code execution risk
+4. **🔓 Disabled SSL**: Man-in-the-middle attack vulnerability
 
-## 🧪 Cómo Probar
+## 🧪 How to Test
 
-### 1. Hacer push con código vulnerable
+### 1. Push vulnerable code
 ```bash
 git add .
 git commit -m "feat: add vulnerable code for testing"
 git push origin main
 ```
 
-### 2. Ver el pipeline fallar
-- Ve a la pestaña **Actions** en GitHub
-- Observa cómo el pipeline detecta las vulnerabilidades
-- **Screenshot perfecto para tu portfolio!** 📸
+### 2. Watch the pipeline fail
+- Go to the **Actions** tab on GitHub
+- Observe how the pipeline detects vulnerabilities
+- **Perfect screenshot for your portfolio!** 📸
 
-### 3. Arreglar y ver el pipeline pasar
+### 3. Fix and watch the pipeline pass
 ```bash
-# Usa app_secure.py como referencia
 git add .
 git commit -m "fix: remove hardcoded secrets and SQL injection"
 git push origin main
 ```
 
-## 📸 Capturas del Pipeline en Acción
+## 📸 Pipeline in Action - Screenshots
 
-### ❌ CASO 1: Pipeline Detecta Vulnerabilidades (FALLIDO)
+### ❌ CASE 1: Pipeline Detects Vulnerabilities (FAILED)
 
-#### 1.1 Vista General - Pipeline Bloqueado
+#### 1.1 Overview - Pipeline Blocked
 ![Pipeline Failed](screenshots/01_pipeline_failed_overview.png)
-*El workflow muestra estado FAILED (rojo) al detectar código vulnerable*
+*Workflow shows FAILED status (red) when detecting vulnerable code*
 
-#### 1.2 Gitleaks - Detección de Secretos
+#### 1.2 Gitleaks - Secret Detection
 ![Gitleaks Detection](screenshots/02_gitleaks_secrets_detected.png)
-*Gitleaks detecta contraseñas y API keys hardcodeadas*
+*Gitleaks detects hardcoded passwords and API keys*
 
-#### 1.3 Semgrep - Análisis SAST
+#### 1.3 Semgrep - SAST Analysis
 ![Semgrep SAST](screenshots/03_semgrep_vulnerabilities.png)
-*Semgrep encuentra SQL Injection y otras vulnerabilidades*
+*Semgrep finds SQL Injection and other vulnerabilities*
 
-#### 1.4 Security Summary - Build Bloqueado
+#### 1.4 Security Summary - Build Blocked
 ![Security Summary](screenshots/04_security_summary.png)
-*Resumen final: Build bloqueado por problemas de seguridad*
+*Final summary: Build blocked due to security issues*
 
-#### 1.5 Logs Detallados - Gitleaks (6 Secretos Encontrados)
+#### 1.5 Detailed Logs - Gitleaks (6 Secrets Found)
 ![Gitleaks Logs](screenshots/05_gitleaks_logs_detail.png)
-*Logs mostrando: "6 leaks found" - Contraseñas y API keys detectadas en app_vulnerable.py*
+*Logs showing: "6 leaks found" - Passwords and API keys detected in app_vulnerable.py*
 
-#### 1.6 Logs Detallados - Semgrep (Vulnerabilidades Críticas)
+#### 1.6 Detailed Logs - Semgrep (Critical Vulnerabilities)
 ![Semgrep Logs](screenshots/06_semgrep_logs_detail.png)
-*Logs JSON con SQL Injection, eval() inseguro y SSL deshabilitado*
+*JSON logs with SQL Injection, insecure eval(), and disabled SSL verification*
 
 ---
 
-### ✅ CASO 2: Pipeline Pasa Después de Arreglar (ÉXITO)
+### ✅ CASE 2: Pipeline Passes After Fix (SUCCESS)
 
-#### 2.1 Vista General - Todos los Workflows
+#### 2.1 Overview - All Workflows
 ![Pipeline Success](screenshots/07_pipeline_success_overview.png)
-*Contraste perfecto: Fix en verde ✅ vs commits vulnerables en rojo ❌*
+*Perfect contrast: Fix in green ✅ vs vulnerable commits in red ❌*
 
-#### 2.2 Detalle - Todos los Jobs Pasados
+#### 2.2 Details - All Jobs Passed
 ![All Jobs Passed](screenshots/08_all_jobs_passed.png)
 *Gitleaks ✅ | Semgrep ✅ | Dependency Check ✅ | Security Summary ✅*
 
-## 🏆 Skills Demostradas
+---
+
+## 🛡️ Vulnerabilities Detected
+
+| Type | Tool | Status |
+|------|------|--------|
+| 🔑 Hardcoded passwords | Gitleaks | ✅ 6 secrets found |
+| 🔑 Exposed API keys | Gitleaks | ✅ Detected |
+| 💉 SQL Injection | Semgrep | ✅ Detected |
+| ⚠️ Insecure eval() | Semgrep | ✅ Detected |
+| 🔓 Disabled SSL | Semgrep | ✅ Detected |
+
+## 🏆 Skills Demonstrated
 
 - ✅ Security as Code
-- ✅ CI/CD con GitHub Actions
-- ✅ Análisis Estático de Código (SAST)
-- ✅ Detección de Secretos
+- ✅ CI/CD with GitHub Actions
+- ✅ Static Application Security Testing (SAST)
+- ✅ Secret Detection
 - ✅ DevSecOps Best Practices
 - ✅ Shift-Left Security
+- ✅ Vulnerability Remediation
 
-## 📚 Recursos
+## 📚 Resources
 
 - [Gitleaks Documentation](https://github.com/gitleaks/gitleaks)
 - [Semgrep Documentation](https://semgrep.dev/docs/)
 - [GitHub Actions Security](https://docs.github.com/en/actions/security-guides)
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 
 ---
 
-**Autor:** Guillermo  
-**Propósito:** Portfolio de Ciberseguridad/DevSecOps  
-**Licencia:** MIT
+**Author:** Guillermo  
+**Purpose:** Cybersecurity/DevSecOps Portfolio  
+**License:** MIT

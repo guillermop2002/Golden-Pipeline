@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-✅ ARCHIVO SEGURO - VERSIÓN CORREGIDA
+✅ SECURE FILE - FIXED VERSION
 
-Este archivo demuestra las correcciones de seguridad
-para las vulnerabilidades del archivo app_vulnerable.py.
+This file demonstrates the security fixes
+for the vulnerabilities in the original app_vulnerable.py.
 """
 
 import os
@@ -11,25 +11,25 @@ import sqlite3
 import requests
 
 # ============================================
-# ✅ SOLUCIÓN 1: Variables de Entorno
+# ✅ SOLUTION 1: Environment Variables
 # ============================================
-# Los secretos se obtienen de variables de entorno
+# Secrets are obtained from environment variables
 DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD', '')
 API_KEY = os.environ.get('API_KEY', '')
 AWS_SECRET_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
 
 
 # ============================================
-# ✅ SOLUCIÓN 2: Queries Parametrizadas
+# ✅ SOLUTION 2: Parameterized Queries
 # ============================================
 def get_user_by_id(user_id):
     """
-    ✅ SEGURO: Usa queries parametrizadas para prevenir SQL Injection.
+    ✅ SECURE: Uses parameterized queries to prevent SQL Injection.
     """
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     
-    # ✅ BIEN: Query parametrizada con placeholder
+    # ✅ GOOD: Parameterized query with placeholder
     query = "SELECT * FROM users WHERE id = ?"
     cursor.execute(query, (user_id,))
     
@@ -38,12 +38,12 @@ def get_user_by_id(user_id):
 
 def authenticate_user(username, password):
     """
-    ✅ SEGURO: Queries parametrizadas en autenticación.
+    ✅ SECURE: Parameterized queries in authentication.
     """
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     
-    # ✅ BIEN: Parámetros separados de la query
+    # ✅ GOOD: Parameters separated from query
     query = "SELECT * FROM users WHERE username = ? AND password = ?"
     cursor.execute(query, (username, password))
     
@@ -51,17 +51,17 @@ def authenticate_user(username, password):
 
 
 # ============================================
-# ✅ SOLUCIÓN 3: Validación Segura
+# ✅ SOLUTION 3: Safe Validation
 # ============================================
 def calculate(expression):
     """
-    ✅ SEGURO: Usa ast.literal_eval o validación estricta.
-    Solo permite operaciones numéricas básicas.
+    ✅ SECURE: Uses ast.literal_eval or strict validation.
+    Only allows basic numeric operations.
     """
     import ast
     import operator
     
-    # Operadores permitidos
+    # Allowed operators
     operators = {
         ast.Add: operator.add,
         ast.Sub: operator.sub,
@@ -78,41 +78,41 @@ def calculate(expression):
             op = operators.get(type(node.op))
             if op:
                 return op(left, right)
-        raise ValueError("Expresión no permitida")
+        raise ValueError("Expression not allowed")
     
     tree = ast.parse(expression, mode='eval')
     return safe_eval(tree.body)
 
 
 # ============================================
-# ✅ SOLUCIÓN 4: Request con verificación SSL
+# ✅ SOLUTION 4: Request with SSL Verification
 # ============================================
 def fetch_data(url):
     """
-    ✅ SEGURO: Verificación SSL habilitada (por defecto).
+    ✅ SECURE: SSL verification enabled (default).
     """
-    # ✅ BIEN: verify=True es el default, SSL habilitado
+    # ✅ GOOD: verify=True is the default, SSL enabled
     response = requests.get(url, timeout=30)
-    response.raise_for_status()  # Lanza excepción si hay error HTTP
+    response.raise_for_status()  # Raises exception on HTTP error
     return response.json()
 
 
 # ============================================
-# Función principal segura
+# Secure Main Function
 # ============================================
 def main():
     """
-    Hola Mundo seguro sin credenciales expuestas.
+    Secure Hello World without exposed credentials.
     """
-    print("🌍 ¡Hola Mundo desde el Golden Pipeline!")
-    print("🔒 Credenciales cargadas desde variables de entorno")
-    print("✅ Pipeline de seguridad: PASSED")
+    print("🌍 Hello World from the Golden Pipeline!")
+    print("🔒 Credentials loaded from environment variables")
+    print("✅ Security pipeline: PASSED")
     
-    # Verificar que las variables de entorno están configuradas
+    # Check if environment variables are configured
     if not DATABASE_PASSWORD:
-        print("⚠️  Advertencia: DATABASE_PASSWORD no configurada")
+        print("⚠️  Warning: DATABASE_PASSWORD not configured")
     if not API_KEY:
-        print("⚠️  Advertencia: API_KEY no configurada")
+        print("⚠️  Warning: API_KEY not configured")
 
 
 if __name__ == "__main__":
